@@ -1,0 +1,6 @@
+@JwksEndpoint_HostAddress = http://localhost:5052
+
+GET {{JwksEndpoint_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
