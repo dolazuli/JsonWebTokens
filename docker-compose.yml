@@ -1,0 +1,6 @@
+services:
+  jwksendpoint:
+    build:
+      context: ./JwksEndpoint
+    ports:
+      - "8080:8080"

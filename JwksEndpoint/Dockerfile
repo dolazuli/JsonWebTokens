@@ -1,29 +1,15 @@
-
-# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /App
 
-WORKDIR /src
-
-# Copy project file and restore dependencies
-COPY *.csproj ./
+# Copy everything
+COPY . ./
+# Restore as distinct layers
 RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -o out
 
-# Copy remaining source code
-COPY . .
-
-# Compile and publish
-RUN dotnet publish -c Release -o /app/publish
-
-# Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
-
-WORKDIR /app
-
-# Copy published application
-COPY --from=build /app/publish .
-
-# ASP.NET Core listening port
-EXPOSE 8080
-
-# Start application
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+WORKDIR /App
+COPY --from=build /App/out .
 ENTRYPOINT ["dotnet", "JwksEndpoint.dll"]
