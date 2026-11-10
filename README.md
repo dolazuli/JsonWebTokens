@@ -10,5 +10,5 @@ mv public.pem JwksEndpoint/
 Build the image and start the container
 
 ```
-docker compose up -d
+docker compose up -d --build
 ```
